@@ -2,7 +2,12 @@ package com.example.springshop1.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.UUIDGenerator;
+
+import javax.lang.model.element.Name;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 
@@ -12,7 +17,7 @@ import java.util.UUID;
 @Table(name = "cart")
 public class Cart {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
     @Column(name = "id")
     private UUID id;
 
@@ -46,6 +51,10 @@ public class Cart {
 
     @Column(name = "count")
     private int count;
+
+    private BigDecimal pricePerProduct;
+
+    private BigDecimal totalPrice;
 
 
 }

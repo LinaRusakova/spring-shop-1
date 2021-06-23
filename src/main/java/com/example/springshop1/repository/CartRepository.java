@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface CartRepository extends CrudRepository <Cart, UUID> {
 
-    public Product getProductById(UUID id);
+    Cart getCartById(UUID id);
 
 
 }

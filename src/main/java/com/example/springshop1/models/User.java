@@ -1,18 +1,21 @@
 package com.example.springshop1.models;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.UUID;
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "name")
     private String firstName;
@@ -32,7 +35,10 @@ public class User {
     @Column(name = "login")
     private String login;
 
-    @Column(name = "role")
-    private String role;
+    @ManyToMany
+    @JoinTable(name = "role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
 }

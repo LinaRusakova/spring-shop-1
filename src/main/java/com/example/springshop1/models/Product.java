@@ -1,6 +1,7 @@
 package com.example.springshop1.models;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
     @Column(name = "id")
     private UUID id;
 
@@ -20,6 +21,9 @@ public class Product {
 
     @Column(name = "count")
     private int count;
+
+    @Column(name = "price")
+    private int price;
 
     public UUID getId() {
         return id;

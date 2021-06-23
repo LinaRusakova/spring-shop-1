@@ -2,14 +2,13 @@ package com.example.springshop1.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.UUID;
+
 
 @Entity
 @Data
@@ -17,9 +16,9 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
+    @GenericGenerator(name="UUID", strategy = "UUIDGenerator")
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
