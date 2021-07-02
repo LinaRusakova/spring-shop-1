@@ -73,7 +73,7 @@ public class OrderService {
         }
     }
 
-    public java.util.List<Product> getProducts() {
-        return products;
-    }
+//    public java.util.List<Product> getProducts() {
+//        return products;
+//    }
 }
