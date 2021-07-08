@@ -4,12 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="add-columns" author="lina_rusakova">
-        <insert tableName="product">
-            <column name="id" valueComputed="uuid_generate_v4()"/>
-            <column name="name" value="Груша"/>
-            <column name="count" value="1"/>
-        </insert>
+    <changeSet id="change-user_table" author="lina_rusakova">
+        <renameTable newTableName="users" oldTableName="user"/>
+        <renameTable newTableName="orders" oldTableName="cart"/>
+        <renameColumn oldColumnName="name" newColumnName="first_name" tableName="users"/>
+        <addColumn tableName="users">
+            <column name="email" type="text"></column>
+        </addColumn>
     </changeSet>
-
 </databaseChangeLog>

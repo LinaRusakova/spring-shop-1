@@ -1,6 +1,6 @@
-package com.example.springshop1.service;
+package com.example.springshop1.services;
 
-import com.example.springshop1.repository.RoleRepository;
+import com.example.springshop1.repositories.RoleRepository;
 import com.example.springshop1.utils.DefaultUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.springshop1.models.Role;
 import com.example.springshop1.models.User;
-import com.example.springshop1.repository.UserRepository;
+import com.example.springshop1.repositories.UserRepository;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public boolean save(DefaultUser defaultUser) {
-        User user = findByUsername(defaultUser.getLogin()).orElseThrow(() -> new UsernameNotFoundException(String.format("UserName of this User is null.")));
+        User user = findByUserLogin(defaultUser.getLogin()).orElseThrow(() -> new UsernameNotFoundException(String.format("UserName of this User is null.")));
         user.setLogin(defaultUser.getLogin());
         user.setPassword(passwordEncoder.encode(defaultUser.getPassword()));
         user.setFirstName(defaultUser.getFirstName());
@@ -58,13 +58,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+    public UserDetails loadUserByUsername(String userLogin) throws UsernameNotFoundException {
+        User user = findByUserLogin(userLogin).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", userLogin)));
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Optional<User> findByUsername(String username) {
-        return userRepository.findOneByUserName(username);
+    private Optional<User> findByUserLogin(String userLogin) {
+        return userRepository.findOneByLogin(userLogin);
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

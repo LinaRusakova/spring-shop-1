@@ -1,6 +1,6 @@
 package com.example.springshop1.config.security;
 
-import com.example.springshop1.service.UserService;
+import com.example.springshop1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

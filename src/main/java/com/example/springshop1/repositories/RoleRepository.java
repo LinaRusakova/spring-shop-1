@@ -1,4 +1,4 @@
-package com.example.springshop1.repository;
+package com.example.springshop1.repositories;
 
 
 import com.example.springshop1.models.Role;

@@ -1,8 +1,10 @@
 package com.example.springshop1.frontend;
 
 
+import com.example.springshop1.utils.Cart;
 import com.example.springshop1.models.Product;
-import com.example.springshop1.service.OrderService;
+import com.example.springshop1.services.CartService;
+import com.example.springshop1.services.OrderService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -17,33 +19,41 @@ import com.vaadin.flow.router.Route;
 
 @Route("cart")
 public class CartView extends VerticalLayout {
+
     private final Grid<Product> grid = new Grid<>(Product.class);
 
     private final OrderService orderService;
+    private final Cart cart;
+    private CartService cartService;
 
-    public CartView(OrderService orderService) {
+    public CartView(Cart cart, OrderService orderService) {
+        this.cart = cart;
         this.orderService = orderService;
 
         initCartGrid();
         add(grid);
-        var toMainButton = new Button("На главную",
+        var toMainPageButton = new Button("На главную",
                 event -> UI.getCurrent().navigate("main"));
-        add(toMainButton);
-        var saveCartButton = new Button("Сохранить корзину",
+        add(toMainPageButton);
+        var toOrderListButton = new Button("Заказы",
+                event -> UI.getCurrent().navigate("orders"));
+        add(toOrderListButton);
+        var createOrderButton = new Button("Заказть",
                 event -> {
-                    orderService.saveCartToDB(orderService.getProducts());
+                    orderService.createOrder(cartService.getCart());
                     Notification.show("Ваша Корзина была успешно сохранена");
-                    UI.getCurrent().navigate("cart");
+                    UI.getCurrent().navigate("orders");
 
                 });
-        add(toMainButton);
+        add(createOrderButton);
     }
 
     private void initCartGrid() {
-        var products = orderService.getProducts();
+
+        var products = orderService.getCart();
 
         grid.setItems(products);
-        grid.setColumns("name", "count");
+        grid.setColumns("Product's Name", "Count", "Price per one", "Cost");
         grid.setSizeUndefined();
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         ListDataProvider<Product> dataProvider = DataProvider.ofCollection(products);

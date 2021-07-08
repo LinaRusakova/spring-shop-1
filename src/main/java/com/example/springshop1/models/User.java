@@ -19,7 +19,7 @@ public class User {
     @Column(name = "id")
     private UUID id;
 
-    //TODO: change column "name" to "login"
+//    TODO: change column "name" to "login"
     @Column(name = "login")
     private String login;
 
